@@ -1,0 +1,1385 @@
+/* ==========================================================
+   Studio Parama — Redesign
+   ========================================================== */
+
+:root {
+  --color-bg: #f4f3f0;
+  --color-text: #1d1d1b;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+
+  --gutter: clamp(1.25rem, 3vw, 3rem);
+  /* jarak kiri/kanan layar */
+  --header-h: clamp(4.5rem, 10vh, 8rem);
+  /* tinggi header */
+  --toggle-size: clamp(3rem, 4.2vw, 4.75rem);
+  /* tombol menu kotak */
+  --ease: cubic-bezier(.65, 0, .35, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  padding: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-logo img {
+  height: clamp(1.25rem, 2.2vw, 2rem);
+  width: auto;
+}
+
+.site-logo__text {
+  font-weight: 500;
+  font-size: clamp(1rem, 1.4vw, 1.375rem);
+  letter-spacing: .32em;
+}
+
+/* ---------- Menu toggle ---------- */
+.menu-toggle {
+  width: var(--toggle-size);
+  height: var(--toggle-size);
+  background: var(--color-text);
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.menu-toggle__line {
+  display: block;
+  height: 2px;
+  width: 42%;
+  background: var(--color-bg);
+  transition: transform .4s var(--ease), opacity .3s var(--ease), width .3s var(--ease);
+}
+
+.menu-toggle__line:nth-child(3) {
+  width: 30%;
+  transform: translateX(-20%);
+}
+
+.menu-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  color: var(--color-text);
+}
+
+.is-menu-open .menu-toggle:focus-visible {
+  color: var(--color-bg);
+}
+
+.is-menu-open .menu-toggle {
+  background: var(--color-bg);
+}
+
+/* Saat menu terbuka: kedua garis X dibuat sama panjang supaya simetris */
+.is-menu-open .menu-toggle .menu-toggle__line {
+  width: 42%;
+  background: var(--color-text);
+}
+
+.is-menu-open .menu-toggle__line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.is-menu-open .menu-toggle__line:nth-child(2) {
+  opacity: 0;
+}
+
+.is-menu-open .menu-toggle__line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.is-menu-open .site-logo {
+  color: var(--color-bg);
+}
+
+/* ---------- Overlay nav ---------- */
+.site-nav {
+  /* ruang atas = tinggi header (padding 50px atas-bawah + tombol), bawah = 50px */
+  --nav-top: calc(100px + var(--toggle-size));
+  --nav-bottom: 50px;
+
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--color-text);
+  color: var(--color-bg);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  padding: var(--nav-top) 50px var(--nav-bottom);
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  transition: clip-path .6s var(--ease), visibility 0s linear .6s;
+}
+
+.is-menu-open .site-nav {
+  clip-path: inset(0 0 0 0);
+  visibility: visible;
+  transition: clip-path .6s var(--ease);
+}
+
+/* Daftar link mengisi tinggi layar sampai bawah */
+.site-nav__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+}
+
+.site-nav__list a {
+  display: block;
+  /* ukuran sedang; jarak antar link diatur space-between supaya tetap penuh sampai bawah */
+  font-size: clamp(1.75rem, 6vh, 4rem);
+  line-height: 1;
+  letter-spacing: -.03em;
+  transition: opacity .3s;
+  font-weight: bolder;
+  text-transform: uppercase;
+}
+
+.site-nav__list:hover a {
+  opacity: .4;
+}
+
+.site-nav__list a:hover {
+  opacity: 1;
+}
+
+/* Foto kanan, setinggi blok navigasi */
+.site-nav__media {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.site-nav__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 767px) {
+  .site-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .site-nav__list a {
+    font-size: clamp(1.75rem, 5.5vh, 2.75rem);
+  }
+
+  .site-nav__media {
+    display: none;
+  }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: var(--header-h) var(--gutter);
+  display: grid;
+  place-items: center;
+}
+
+.hero__title {
+  font-weight: bolder;
+  text-transform: uppercase;
+  /* tinggi layar (vh) jadi patokan utama, dibatasi lebar (vw) supaya kata terpanjang tetap muat di HP */
+  font-size: clamp(2.25rem, min(22vh, 13.5vw), 18rem);
+  line-height: 1;
+  letter-spacing: -.04em;
+  text-align: center;
+}
+
+/* Semua kata ditumpuk di sel grid yang sama: lebar tetap, tidak ada lompatan layout */
+.hero__rotator {
+  display: grid;
+  justify-items: center;
+}
+
+.hero__word {
+  grid-area: 1 / 1;
+  display: flex;
+  letter-spacing: 10px;
+  white-space: nowrap;
+  /* ruang ekstra supaya huruf tidak terpotong saat masuk/keluar */
+  padding-block: .08em;
+  clip-path: inset(0 -1em);
+}
+
+.hero__char {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform .9s var(--ease-out);
+  transition-delay: calc(var(--i) * 35ms);
+  will-change: transform;
+}
+
+.hero__word.is-active .hero__char {
+  transform: translateY(0);
+}
+
+.hero__word.is-leaving .hero__char {
+  transform: translateY(-110%);
+  transition-duration: .7s;
+  transition-timing-function: var(--ease);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+body.is-menu-open {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================================
+   Beranda
+   Mengikuti referensi Figma: judul raksasa, foto berjajar,
+   karya dua foto selang-seling, layanan & proses berbaris garis.
+   Warna putih lembut & hitam arang (bukan putih/hitam murni).
+   ========================================================== */
+
+:root {
+  /* warna */
+  --paper: var(--color-bg);
+  /* putih lembut */
+  --ink: var(--color-text);
+  /* hitam arang */
+  --paper-2: #e9e8e4;
+  /* latar Proses, sedikit lebih gelap */
+  --muted: #7a7974;
+  /* teks kecil / keterangan */
+  --muted-light: #a9a8a3;
+  /* teks kecil di latar gelap */
+  --line: rgba(29, 29, 27, .2);
+  --line-light: rgba(244, 243, 240, .25);
+
+  /* jarak */
+  --margin: clamp(20px, 3.5vw, 50px);
+  --section-y: clamp(88px, 12vw, 180px);
+
+  /* gerak */
+  --dur: 1.2s;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* label kecil kapital */
+.label {
+  font-size: .625rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* panah, dipakai di tautan & tombol */
+.arrow {
+  width: 21px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.4;
+  transition: transform .25s ease;
+}
+
+.arrow--diagonal {
+  transform: rotate(-45deg);
+}
+
+a:hover .arrow {
+  transform: translateX(4px);
+}
+
+a:hover .arrow--diagonal {
+  transform: translate(3px, -3px) rotate(-45deg);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  transition: transform .5s var(--ease), color .3s;
+}
+
+/* garis tipis di bawah header */
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: .2;
+}
+
+.site-header.is-hidden {
+  transform: translateY(-100%);
+}
+
+.site-header.on-dark {
+  color: var(--color-bg);
+}
+
+.site-header.on-dark .menu-toggle {
+  background: var(--color-bg);
+}
+
+.site-header.on-dark .menu-toggle__line {
+  background: var(--color-text);
+}
+
+.is-menu-open .site-header {
+  transform: none;
+}
+
+.is-menu-open .site-header::after,
+.is-menu-open .header-nav {
+  opacity: 0;
+}
+
+/* navigasi tengah (desktop) */
+.header-nav {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  gap: 34px;
+  font-size: .8125rem;
+  transform: translateX(-50%);
+  transition: opacity .3s;
+}
+
+.header-nav a,
+.site-footer__links a {
+  position: relative;
+}
+
+.header-nav a::after,
+.site-footer__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .25s ease;
+}
+
+.header-nav a:hover::after,
+.site-footer__links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ---------- Hero: judul raksasa & empat foto berjajar ---------- */
+/* menimpa tata letak tengah dari bagian Hero di atas, kode aslinya tidak diubah */
+.hero {
+  display: block;
+  place-items: normal;
+  min-height: 100vh;
+  min-height: 100svh;
+  /* atas: tinggi header asli (padding 50px atas-bawah + tombol) */
+  padding: calc(100px + var(--toggle-size) + 38px) var(--margin) 0;
+}
+
+.hero__eyebrow,
+.hero__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  font-size: .6875rem;
+  line-height: 1.4;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hero__title {
+  margin: clamp(32px, 6vh, 80px) 0 clamp(28px, 5vh, 60px) -.04em;
+  /* kata terpanjang (GRADUATION) harus muat di antara margin kiri-kanan */
+  font-size: min(14.25vw, calc((100vw - 2 * var(--margin)) / 6.45), 270px);
+  font-weight: 500;
+  line-height: .9;
+  letter-spacing: -.075em;
+  text-align: left;
+}
+
+.hero__rotator {
+  justify-items: start;
+}
+
+.hero__word {
+  letter-spacing: inherit;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid currentColor;
+}
+
+.hero__gallery {
+  display: grid;
+  grid-template-columns: .8fr 1.25fr .9fr .65fr;
+  gap: 10px;
+  height: clamp(240px, 35vh, 420px);
+  margin: clamp(28px, 5vh, 56px) calc(var(--margin) * -1) 0;
+}
+
+.hero__gallery figure {
+  overflow: hidden;
+  background: #dcdbd7;
+}
+
+.hero__gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s var(--ease-out);
+}
+
+.hero__gallery figure:hover img {
+  transform: scale(1.035);
+}
+
+/* ---------- Pola bersama: judul section ---------- */
+.section {
+  padding: var(--section-y) var(--margin);
+}
+
+.section-head {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: end;
+  gap: 40px;
+  margin-bottom: clamp(55px, 8vw, 110px);
+}
+
+.section-head--compact {
+  grid-template-columns: 1fr 3fr;
+  margin-bottom: clamp(52px, 6vw, 90px);
+}
+
+.section-head__title {
+  font-size: clamp(3rem, 7vw, 8rem);
+  font-weight: 400;
+  line-height: .95;
+  letter-spacing: -.06em;
+}
+
+.section-head__note {
+  max-width: 280px;
+  justify-self: end;
+  font-size: .75rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.section-head--compact .section-head__note {
+  justify-self: start;
+}
+
+/* ---------- Karya: dua foto per baris, selang-seling besar-kecil ---------- */
+.work__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(80px, 10vw, 160px) clamp(18px, 2.5vw, 40px);
+}
+
+.work__item {
+  display: block;
+  min-width: 0;
+}
+
+/* --1 besar kiri, --2 kecil kanan (turun), --3 kecil kiri, --4 besar kanan (turun) */
+.work__item--1 {
+  grid-column: 1 / 9;
+}
+
+.work__item--2 {
+  grid-column: 9 / 13;
+  margin-top: 30%;
+}
+
+.work__item--3 {
+  grid-column: 1 / 5;
+}
+
+.work__item--4 {
+  grid-column: 5 / 13;
+  margin-top: 12%;
+}
+
+.work__media {
+  position: relative;
+  aspect-ratio: 1.42 / 1;
+  overflow: hidden;
+  background: #dcdbd7;
+}
+
+.work__item--2 .work__media,
+.work__item--3 .work__media {
+  aspect-ratio: .82 / 1;
+}
+
+.work__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* kotak panah di pojok foto */
+.work__open {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.work__open .arrow {
+  width: 18px;
+}
+
+.work__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+  padding-top: 16px;
+}
+
+.work__name {
+  font-size: clamp(1.25rem, 2vw, 2.125rem);
+  font-weight: 500;
+  letter-spacing: -.035em;
+}
+
+.work__type {
+  display: flex;
+  gap: 22px;
+  font-size: .6875rem;
+  color: var(--muted);
+}
+
+/* ---------- Layanan: baris besar, menghitam saat disorot ---------- */
+.services {
+  border-top: 1px solid var(--line);
+}
+
+.services__list {
+  border-top: 1px solid var(--line);
+}
+
+.services__list a {
+  display: grid;
+  grid-template-columns: minmax(45px, 1fr) 3fr auto;
+  align-items: center;
+  min-height: clamp(108px, 12vw, 190px);
+  border-bottom: 1px solid var(--line);
+  transition: padding .3s ease, background-color .3s ease, color .3s ease;
+}
+
+.services__list a:hover {
+  padding: 0 24px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.services__list span {
+  align-self: start;
+  padding-top: 32px;
+  font-size: .625rem;
+}
+
+.services__list h3 {
+  font-size: clamp(2.75rem, 7vw, 7.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.06em;
+}
+
+.services__list .arrow {
+  width: clamp(28px, 4vw, 60px);
+}
+
+/* ---------- Proses: empat kolom bergaris ---------- */
+.process {
+  background: var(--paper-2);
+}
+
+.process .section-head__title {
+  max-width: 1000px;
+  font-size: clamp(2.75rem, 6vw, 6.5rem);
+  line-height: 1.02;
+}
+
+.process__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--ink);
+}
+
+.process__grid article {
+  min-height: 350px;
+  padding: 20px 24px 0 0;
+  border-right: 1px solid var(--line);
+}
+
+.process__grid article+article {
+  padding-left: 24px;
+}
+
+.process__grid article:last-child {
+  border-right: 0;
+}
+
+.process__grid span {
+  font-size: .625rem;
+}
+
+.process__grid h3 {
+  margin: 90px 0 18px;
+  font-size: clamp(1.625rem, 2.5vw, 2.625rem);
+  font-weight: 500;
+  letter-spacing: -.04em;
+}
+
+.process__grid p {
+  max-width: 245px;
+  font-size: .75rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ---------- Kontak: penutup gelap ---------- */
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 76vh;
+  min-height: 76svh;
+  padding: 80px var(--margin) 42px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.contact__lead {
+  margin-bottom: 26px;
+  font-size: .75rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+.contact__cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0 34px;
+  border-block: 1px solid var(--line-light);
+  font-size: clamp(3.5rem, 11.7vw, 13.75rem);
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: -.07em;
+}
+
+.contact__cta .arrow {
+  width: clamp(45px, 7vw, 110px);
+}
+
+.contact__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 28px;
+  font-size: .6875rem;
+  color: var(--muted-light);
+}
+
+.contact__meta a:hover {
+  color: var(--paper);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 30px;
+  min-height: 300px;
+  padding: 48px var(--margin) 28px;
+  font-size: .6875rem;
+}
+
+.site-footer__logo {
+  width: max-content;
+  height: max-content;
+  font-size: clamp(1.625rem, 4vw, 3.75rem);
+  font-weight: 500;
+  letter-spacing: .18em;
+}
+
+.site-footer__col {
+  font-style: normal;
+  line-height: 1.7;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.site-footer__copy {
+  grid-column: 1 / -1;
+  align-self: end;
+  color: var(--muted);
+}
+
+/* ==========================================================
+   Animasi saat di-scroll
+   ========================================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+  transition-delay: var(--d, 0s) !important;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* teks per kata naik dari balik masker (class .split) */
+.split.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.split .w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: .08em;
+  margin-bottom: -.08em;
+}
+
+.split .w>span {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform var(--dur) var(--ease-out);
+  transition-delay: calc(var(--d, 0s) + var(--i) * 28ms);
+}
+
+.split.is-visible .w>span {
+  transform: none;
+}
+
+/* foto karya terbuka dari bawah */
+.work__item.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.work__item .work__media {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path var(--dur) var(--ease-out) var(--d, 0s);
+}
+
+.work__item .work__media img {
+  transform: scale(1.25);
+  transition: transform 2s var(--ease-out);
+}
+
+.work__item.is-visible .work__media {
+  clip-path: inset(0 0 0 0);
+}
+
+.work__item.is-visible .work__media img {
+  transform: scale(1);
+}
+
+.work__item.is-visible:hover .work__media img {
+  transform: scale(1.04);
+  transition-duration: 1.2s;
+}
+
+/* parallax: elemen data-speed bergerak lebih cepat/lambat dari scroll */
+[data-speed] {
+  translate: 0 var(--py, 0);
+}
+
+/* foto latar bergeser di dalam bingkainya (--iy: -1 → 1) */
+.px-img img {
+  height: 130% !important;
+  translate: 0 calc((var(--iy, 0) - 1) * 11.5%);
+}
+
+
+/* ==========================================================
+   Animasi pembuka (saat halaman pertama dibuka)
+   ========================================================== */
+
+.loader {
+  display: none;
+}
+
+.is-loading .loader,
+.is-revealing .loader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1.25rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+  clip-path: inset(0 0 0 0);
+}
+
+.loader__logo {
+  font-weight: 500;
+  font-size: clamp(1rem, 1.4vw, 1.375rem);
+  letter-spacing: .32em;
+  margin-right: -.32em;
+  animation: loader-in 1s var(--ease-out) both;
+}
+
+.loader__bar {
+  position: relative;
+  width: 120px;
+  height: 1px;
+  background: rgba(244, 243, 240, .2);
+  overflow: hidden;
+}
+
+.loader__bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-bg);
+  transform-origin: left;
+  animation: loader-bar 1.1s var(--ease) .15s both;
+}
+
+/* tirai hitam terangkat ke atas */
+.is-revealing .loader {
+  pointer-events: none;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path .9s var(--ease);
+}
+
+@keyframes loader-in {
+  from {
+    opacity: 0;
+    letter-spacing: .6em;
+  }
+}
+
+@keyframes loader-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* keadaan awal sebelum tirai terangkat */
+.is-loading .site-header {
+  opacity: 0;
+  transform: translateY(-1.5rem);
+}
+
+.is-loading .hero__word.is-active .hero__char {
+  transform: translateY(110%);
+}
+
+.is-loading .hero__lead {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+/* setelah tirai: header turun, kata hero naik, kalimat menyusul */
+.is-revealing .site-header {
+  transition: opacity 1s var(--ease-out) .5s, transform 1s var(--ease-out) .5s;
+}
+
+.is-revealing .hero__word.is-active .hero__char {
+  transition-duration: 1.1s;
+  transition-delay: calc(.35s + var(--i) * 45ms);
+}
+
+.hero__lead {
+  transition: opacity 1s var(--ease-out) .9s, transform 1s var(--ease-out) .9s;
+}
+
+
+/* ==========================================================
+   Animasi menu layar penuh
+   ========================================================== */
+
+/* link naik satu per satu dari balik masker */
+.site-nav__list li {
+  overflow: hidden;
+}
+
+.site-nav__list a {
+  position: relative;
+  width: fit-content;
+  transform: translateY(110%);
+  transition: transform .5s var(--ease), opacity .3s;
+}
+
+.is-menu-open .site-nav__list a {
+  transform: none;
+  transition: transform 1s var(--ease-out), opacity .3s;
+}
+
+.is-menu-open .site-nav__list li:nth-child(1) a {
+  transition-delay: .30s, 0s;
+}
+
+.is-menu-open .site-nav__list li:nth-child(2) a {
+  transition-delay: .37s, 0s;
+}
+
+.is-menu-open .site-nav__list li:nth-child(3) a {
+  transition-delay: .44s, 0s;
+}
+
+.is-menu-open .site-nav__list li:nth-child(4) a {
+  transition-delay: .51s, 0s;
+}
+
+.is-menu-open .site-nav__list li:nth-child(5) a {
+  transition-delay: .58s, 0s;
+}
+
+/* hover: garis tipis tergambar di bawah link */
+.site-nav__list a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -.05em;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .6s var(--ease-out);
+}
+
+.site-nav__list a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* foto: terbuka dari bawah sambil zoom out */
+.site-nav__media {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path .5s var(--ease);
+}
+
+.site-nav__media img {
+  transform: scale(1.2);
+  transition: transform .5s var(--ease);
+}
+
+.is-menu-open .site-nav__media {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.2s var(--ease-out) .35s;
+}
+
+.is-menu-open .site-nav__media img {
+  transform: scale(1);
+  transition: transform 1.8s var(--ease-out) .35s;
+}
+
+/* tombol & logo berganti warna setelah panel hitam mulai turun */
+.menu-toggle {
+  transition: background-color .3s var(--ease);
+}
+
+.site-logo {
+  transition: color .3s var(--ease);
+}
+
+.is-menu-open .menu-toggle,
+.is-menu-open .site-logo {
+  transition-delay: .25s;
+}
+
+.is-menu-open .menu-toggle .menu-toggle__line {
+  transition: transform .4s var(--ease), opacity .3s var(--ease), background-color .3s var(--ease) .25s;
+}
+
+
+/* ==========================================================
+   Scroll halus & kursor bulat (khusus mouse, diatur script.js)
+   ========================================================== */
+
+html.has-smooth {
+  scroll-behavior: auto;
+}
+
+.has-cursor,
+.has-cursor * {
+  cursor: none !important;
+}
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  pointer-events: none;
+  color: #fff;
+  mix-blend-mode: difference;
+  /* putih di latar gelap, hitam di latar terang */
+  transition: opacity .3s;
+}
+
+.cursor.is-hidden {
+  opacity: 0;
+}
+
+.cursor__dot,
+.cursor__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+}
+
+/* titik 4px */
+.cursor__dot {
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  background: currentColor;
+  translate: var(--x, -100px) var(--y, -100px);
+}
+
+/* lingkaran: titik 4px + jarak 30px tiap sisi = 64px */
+.cursor__ring {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border: 1px solid currentColor;
+  translate: var(--rx, -100px) var(--ry, -100px);
+  transition: scale .6s var(--ease-out), opacity .3s;
+}
+
+.cursor.is-hover .cursor__ring {
+  scale: 1.45;
+}
+
+.cursor.is-down .cursor__ring {
+  scale: .8;
+}
+
+
+
+/* ==========================================================
+   Responsif
+   ========================================================== */
+
+@media (max-width: 900px) {
+  .header-nav {
+    display: none;
+  }
+
+  .hero {
+    min-height: 0;
+  }
+
+  .hero__eyebrow p:last-child {
+    display: none;
+  }
+
+  .hero__gallery {
+    grid-template-columns: 1.2fr .8fr;
+    height: 440px;
+  }
+
+  .hero__gallery figure:nth-child(n + 3) {
+    display: none;
+  }
+
+  .section-head,
+  .section-head--compact {
+    grid-template-columns: 1fr;
+  }
+
+  .section-head__note {
+    justify-self: start;
+  }
+
+  .work__grid {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    column-gap: 18px;
+  }
+
+  .work__item--1 {
+    grid-column: 1 / 8;
+  }
+
+  .work__item--2 {
+    grid-column: 8 / 11;
+  }
+
+  .work__item--3 {
+    grid-column: 1 / 4;
+  }
+
+  .work__item--4 {
+    grid-column: 4 / 11;
+  }
+
+  .process__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .process__grid article:nth-child(2) {
+    border-right: 0;
+  }
+
+  .process__grid article:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .process__grid article:nth-child(3) {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero__bottom {
+    align-items: end;
+  }
+
+  .hero__gallery {
+    grid-template-columns: 1fr 1fr;
+    height: 330px;
+  }
+
+  .section-head {
+    gap: 22px;
+  }
+
+  /* HP: satu kolom, tetap selang-seling kiri-kanan */
+  .work__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 84px;
+  }
+
+  .work__item[class*="work__item--"] {
+    margin-top: 0;
+  }
+
+  .work__item--1,
+  .work__item--4 {
+    width: 92%;
+  }
+
+  .work__item--2,
+  .work__item--3 {
+    width: 66%;
+  }
+
+  .work__item--2,
+  .work__item--4 {
+    margin-left: auto;
+  }
+
+  .work__media,
+  .work__item--4 .work__media {
+    aspect-ratio: 1 / 1.08;
+  }
+
+  .work__item--2 .work__media,
+  .work__item--3 .work__media {
+    aspect-ratio: .82 / 1;
+  }
+
+  .work__meta {
+    display: block;
+  }
+
+  .work__type {
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+
+  .services__list a {
+    grid-template-columns: 36px 1fr auto;
+  }
+
+  .services__list span {
+    padding-top: 22px;
+  }
+
+  .process__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .process__grid article,
+  .process__grid article+article {
+    min-height: 260px;
+    padding: 18px 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .process__grid article:nth-child(n + 3) {
+    border-top: 0;
+  }
+
+  .process__grid h3 {
+    margin-top: 65px;
+  }
+
+  .contact {
+    min-height: 68vh;
+    min-height: 68svh;
+  }
+
+  .contact__cta {
+    align-items: flex-end;
+    font-size: clamp(3.375rem, 18vw, 6.875rem);
+  }
+
+  .contact__meta {
+    flex-direction: column;
+  }
+
+  .site-footer {
+    grid-template-columns: 1fr 1fr;
+    min-height: 340px;
+  }
+
+  .site-footer__logo {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ==========================================================
+   Pengunjung yang mematikan animasi: semua tampil diam
+   ========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .split .w>span,
+  .work__item .work__media,
+  .work__item .work__media img,
+  .site-nav__list a,
+  .site-nav__media,
+  .site-nav__media img {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    clip-path: none;
+  }
+
+  .px-img img {
+    translate: none;
+  }
+}

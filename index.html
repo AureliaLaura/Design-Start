@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Studio Parama | Yearbook &amp; Merchandise Angkatan</title>
+    <meta name="description"
+        content="Studio Parama, studio desain yearbook, apparel, printing, dan merchandise wisuda.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=block"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Animasi pembuka: dilewati kalau pengunjung mematikan animasi -->
+    <script>
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('is-loading');
+    </script>
+</head>
+
+<body id="top">
+
+    <div class="loader" aria-hidden="true">
+        <span class="loader__logo">PARAMA</span>
+        <span class="loader__bar"></span>
+    </div>
+
+    <header class="site-header">
+        <!-- LOGO: ganti <span> di bawah dengan <img src="assets/img/logo-parama.svg" alt="Parama"> -->
+        <a href="/" class="site-logo" aria-label="Parama, ke beranda">
+            <span class="site-logo__text">PARAMA</span>
+        </a>
+
+        <nav class="header-nav" aria-label="Navigasi utama">
+            <a href="#karya">Karya</a>
+            <a href="#layanan">Layanan</a>
+            <a href="#kontak">Kontak</a>
+        </nav>
+
+        <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="site-nav">
+            <span class="menu-toggle__line"></span>
+            <span class="menu-toggle__line"></span>
+            <span class="menu-toggle__line"></span>
+        </button>
+    </header>
+
+    <nav class="site-nav" id="site-nav" aria-hidden="true">
+        <ul class="site-nav__list">
+            <li><a href="#top">Home</a></li>
+            <li><a href="#karya">Karya</a></li>
+            <li><a href="#layanan">Layanan</a></li>
+            <li><a href="#proses">Proses</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+        </ul>
+
+        <!-- FOTO MENU: ganti src dengan foto pilihan -->
+        <figure class="site-nav__media">
+            <img src="assets/images/YEARBOOK.gif" alt="" loading="lazy">
+        </figure>
+    </nav>
+
+    <main>
+        <!-- ===== Hero ===== -->
+        <section class="hero">
+            <div class="hero__eyebrow">
+                <p>Studio kreatif untuk cerita angkatan</p>
+                <p>Yearbook &middot; Graduation &middot; Apparel</p>
+            </div>
+
+            <!-- Daftar kata diatur lewat data-words (pisahkan dengan koma) -->
+            <h1 class="hero__title" data-words="Yearbook, Branding, Apparel, Printing, Graduation">
+                <span class="sr-only">Yearbook, Branding, Apparel, Printing, Graduation</span>
+                <span class="hero__rotator" aria-hidden="true">
+                    <span class="hero__word is-active">Yearbook</span>
+                </span>
+            </h1>
+
+            <div class="hero__bottom">
+                <p class="hero__lead">Dirancang personal.</p>
+                <a class="text-link" href="#karya">Lihat karya <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></a>
+            </div>
+
+            <!-- FOTO HERO: empat foto berjajar, ganti src sesuai karya terbaik -->
+            <div class="hero__gallery" aria-label="Pilihan karya Parama">
+                <figure><img src="assets/images/work-01.jpg" alt=""></figure>
+                <figure><img src="assets/images/work-02.jpg" alt=""></figure>
+                <figure><img src="assets/images/work-03.jpg" alt=""></figure>
+                <figure><img src="assets/images/YEARBOOK.gif" alt=""></figure>
+            </div>
+        </section>
+
+        <!-- ===== Karya: dua foto per baris, selang-seling besar-kecil =====
+             Tiap project: ganti foto, nama, kategori, dan tahun.
+             Urutan class: --1 besar kiri, --2 kecil kanan, --3 kecil kiri, --4 besar kanan (pola ini bisa diulang) -->
+        <section class="work section" id="karya">
+            <div class="section-head reveal">
+                <p class="label">Karya / 01</p>
+                <h2 class="section-head__title">Yang kami buat.</h2>
+                <p class="section-head__note">2024&mdash;2025</p>
+            </div>
+
+            <div class="work__grid">
+                <a class="work__item work__item--1 reveal" href="#kontak">
+                    <figure class="work__media">
+                        <img src="assets/images/work-01.jpg" alt="Speranza, proyek Yearbook">
+                        <span class="work__open"><svg class="arrow arrow--diagonal" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></span>
+                    </figure>
+                    <div class="work__meta">
+                        <h3 class="work__name">Speranza</h3>
+                        <p class="work__type">Yearbook <span>2025</span></p>
+                    </div>
+                </a>
+                <a class="work__item work__item--2 reveal" href="#kontak">
+                    <figure class="work__media">
+                        <img src="assets/images/work-02.jpg" alt="Hiraeth, proyek Graduation" loading="lazy">
+                        <span class="work__open"><svg class="arrow arrow--diagonal" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></span>
+                    </figure>
+                    <div class="work__meta">
+                        <h3 class="work__name">Hiraeth</h3>
+                        <p class="work__type">Graduation <span>2025</span></p>
+                    </div>
+                </a>
+                <a class="work__item work__item--3 reveal" href="#kontak">
+                    <figure class="work__media">
+                        <img src="assets/images/work-03.jpg" alt="One of a Kind, proyek Apparel" loading="lazy">
+                        <span class="work__open"><svg class="arrow arrow--diagonal" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></span>
+                    </figure>
+                    <div class="work__meta">
+                        <h3 class="work__name">One of a Kind</h3>
+                        <p class="work__type">Apparel <span>2024</span></p>
+                    </div>
+                </a>
+                <a class="work__item work__item--4 reveal" href="#kontak">
+                    <figure class="work__media">
+                        <img src="assets/images/YEARBOOK.gif" alt="Made to Keep, proyek Printing" loading="lazy">
+                        <span class="work__open"><svg class="arrow arrow--diagonal" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></span>
+                    </figure>
+                    <div class="work__meta">
+                        <h3 class="work__name">Made to Keep</h3>
+                        <p class="work__type">Printing <span>2024</span></p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ===== Layanan ===== -->
+        <section class="services section" id="layanan">
+            <div class="section-head section-head--compact reveal">
+                <p class="label">Layanan / 02</p>
+                <p class="section-head__note">Satu studio untuk semua kebutuhan angkatanmu.</p>
+            </div>
+            <div class="services__list">
+                <a href="#kontak"><span>01</span><h3>Yearbook</h3><svg class="arrow arrow--diagonal" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></a>
+                <a href="#kontak"><span>02</span><h3>Graduation</h3><svg class="arrow arrow--diagonal" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></a>
+                <a href="#kontak"><span>03</span><h3>Apparel</h3><svg class="arrow arrow--diagonal" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></a>
+                <a href="#kontak"><span>04</span><h3>Printing</h3><svg class="arrow arrow--diagonal" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></a>
+            </div>
+        </section>
+
+        <!-- ===== Proses ===== -->
+        <section class="process section" id="proses">
+            <div class="section-head section-head--compact reveal">
+                <p class="label">Proses / 03</p>
+                <h2 class="section-head__title">Dari obrolan pertama sampai karya di tangan.</h2>
+            </div>
+            <div class="process__grid">
+                <article class="reveal"><span>01</span><h3>Cerita</h3><p>Kami dengarkan ide, kebutuhan, dan cerita angkatanmu.</p></article>
+                <article class="reveal"><span>02</span><h3>Rancang</h3><p>Konsep visual dibuat sampai terasa paling kalian.</p></article>
+                <article class="reveal"><span>03</span><h3>Produksi</h3><p>Semua detail diwujudkan dengan standar terbaik.</p></article>
+                <article class="reveal"><span>04</span><h3>Rayakan</h3><p>Karya sampai di tangan, siap untuk dikenang.</p></article>
+            </div>
+        </section>
+
+        <!-- ===== Kontak ===== -->
+        <section class="contact" id="kontak" data-theme="dark">
+            <p class="contact__lead">Punya cerita untuk dijadikan karya?</p>
+            <a class="contact__cta" href="https://wa.me/6282298008994" target="_blank" rel="noopener">Mulai proyek <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M14 6l6 6-6 6" /></svg></a>
+            <div class="contact__meta">
+                <p>Kuota produksi terbatas setiap bulannya.</p>
+                <p><a href="mailto:ask@studioparama.com">ask@studioparama.com</a> &nbsp;&middot;&nbsp; <a
+                        href="https://wa.me/6282298008994" target="_blank" rel="noopener">+62 822 9800 8994</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <a class="site-footer__logo" href="#top">PARAMA</a>
+        <address class="site-footer__col">
+            <p>Studio kreatif</p>
+            <p>Rawa Buntu Utara Blok H2 No.7</p>
+            <p>BSD, Tangerang Selatan</p>
+        </address>
+        <div class="site-footer__col site-footer__links">
+            <a href="https://www.instagram.com/parama.house/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.youtube.com/@paramahouse1428" target="_blank" rel="noopener">YouTube</a>
+            <a href="mailto:ask@studioparama.com">Email</a>
+            <a href="#top">Kembali ke atas &uarr;</a>
+        </div>
+        <p class="site-footer__copy">&copy; <span data-year></span> Studio Parama</p>
+    </footer>
+
+    <script src="assets/js/script.js" defer></script>
+</body>
+
+</html>
